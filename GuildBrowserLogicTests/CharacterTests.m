@@ -13,6 +13,7 @@
 @implementation CharacterTests
 {
     NSDictionary *_characterDetailJson;
+    Character *_testGuy;
 }
 
 -(void)setUp
@@ -29,6 +30,7 @@
     STAssertNotNil(json, @"invalid test data");
     
     _characterDetailJson = json;
+    _testGuy = [[Character alloc] initWithCharacterDetailData:_characterDetailJson];
 }
 
 -(void)tearDown
@@ -45,7 +47,6 @@
     STAssertNotNil(testGuy2, @"Could not create character from nil data");
 }
 
-// 1
 -(void)testCreateCharacterFromDetailJsonProps
 {
     STAssertEqualObjects(_testGuy.thumbnail, @"borean-tundra/171/40508075-avatar.jpg", @"thumbnail url is wrong");
