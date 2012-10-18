@@ -18,8 +18,8 @@
 
 -(void)setUp
 {
-    NSURL *dataServiceURL = [[NSBundle bundleForClass:self.class]
-                             URLForResource:@"character" withExtension:@"json"];
+    NSURL *dataServiceURL = [[NSBundle bundleForClass:self.class] URLForResource:@"character"
+                                                                   withExtension:@"json"];
     
     NSData *sampleData = [NSData dataWithContentsOfURL:dataServiceURL];
     NSError *error;
@@ -27,9 +27,11 @@
     id json = [NSJSONSerialization JSONObjectWithData:sampleData
                                               options:kNilOptions
                                                 error:&error];
-    STAssertNotNil(json, @"invalid test data");
     
     _characterDetailJson = json;
+    NSLog(@"_characterDetailJson:%@", _characterDetailJson);
+    STAssertNotNil(_characterDetailJson, @"invalid test data");
+    
     _testGuy = [[Character alloc] initWithCharacterDetailData:_characterDetailJson];
 }
 
@@ -40,8 +42,7 @@
 
 - (void)testCreateCharacterFromDetailJson
 {
-    Character *testGuy1 = [[Character alloc] initWithCharacterDetailData:_characterDetailJson];
-    STAssertNotNil(testGuy1, @"Could not create character from detail json");
+    STAssertNotNil(_testGuy, @"Could not create character from detail json");
     
     Character *testGuy2 = [[Character alloc] initWithCharacterDetailData:nil];
     STAssertNotNil(testGuy2, @"Could not create character from nil data");
@@ -54,16 +55,14 @@
     STAssertEqualObjects(_testGuy.battleGroup, @"Emberstorm", @"battlegroup is wrong");
     STAssertEqualObjects(_testGuy.realm, @"Borean Tundra", @"realm is wrong");
     STAssertEqualObjects(_testGuy.achievementPoints, @3130, @"achievement points is wrong");
-    STAssertEqualObjects(_testGuy.level,@85, @"level is wrong");
-    
+    STAssertEqualObjects(_testGuy.level,@85, @"level is wrong");    
     STAssertEqualObjects(_testGuy.classType, @"Warrior", @"class type is wrong");
     STAssertEqualObjects(_testGuy.race, @"Human", @"race is wrong");
     STAssertEqualObjects(_testGuy.gender, @"Male", @"gener is wrong");
     STAssertEqualObjects(_testGuy.averageItemLevel, @379, @"avg item level is wrong");
-    STAssertEqualObjects(_testGuy.averageItemLevelEquipped, @355, @"avg item level is wrong");
+    STAssertEqualObjects(_testGuy.averageItemLevelEquipped, @379, @"avg item level is wrong");
 }
 
-// 2
 -(void)testCreateCharacterFromDetailJsonValidateItems
 {
     STAssertEqualObjects(_testGuy.neckItem.name,@"Stoneheart Choker", @"name is wrong");
@@ -72,7 +71,7 @@
     STAssertEqualObjects(_testGuy.handsItem.name,@"Time Strand Gauntlets", @"name is wrong");
     STAssertEqualObjects(_testGuy.shoulderItem.name,@"Temporal Pauldrons", @"name is wrong");
     STAssertEqualObjects(_testGuy.chestItem.name,@"Ruthless Gladiator's Plate Chestpiece", @"name is wrong");
-    STAssertEqualObjects(_testGuy.fingerItem1.name,@"Thrall's Gratitude", @"name is wrong");
+    STAssertEqualObjects(_testGuy.fingerItem1.name,@"Thrall's Gratitude", @"name is wrong");    
     STAssertEqualObjects(_testGuy.fingerItem2.name,@"Breathstealer Band", @"name is wrong");
     STAssertEqualObjects(_testGuy.shirtItem.name,@"Black Swashbuckler's Shirt", @"name is wrong");
     STAssertEqualObjects(_testGuy.tabardItem.name,@"Tabard of the Wildhammer Clan", @"nname is wrong");
